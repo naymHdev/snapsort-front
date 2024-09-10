@@ -40,7 +40,7 @@ const Navbar = () => {
 
         {/* Add image button */}
         <div className=" hidden md:flex">
-          <AiOutlineMenu />
+          <AiOutlineMenu size={30} />
         </div>
 
         {/* Mobile Toggle Icon (Right) */}

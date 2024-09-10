@@ -1,13 +1,11 @@
-
-
 const Home = () => {
-    return (
-        <>
-            <div>
-                
-            </div>
-        </>
-    );
+  throw new Error();
+
+  return (
+    <>
+      <div></div>
+    </>
+  );
 };
 
 export default Home;
