@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai"; // Toggle icons
+import logo from "../../src/assets/logo.png";
 
 const Navbar = () => {
   const [navOpen, setNavOpen] = useState(false);
@@ -11,15 +11,19 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gray-800 text-white shadow-lg">
-      <div className="container mx-auto flex justify-between items-center p-4">
-        {/* Logo */}
-        <Link to="/">
-          <div className="text-2xl font-bold">MyGallery</div>
-        </Link>
+    <nav className=" fixed w-full top-0 left-0 z-10 shadow-sm">
+      <div className="container relative mx-auto flex justify-between items-center py-6 px-5 md:px-0">
+        {/* Social Icons (Left) */}
+        <div className="">
+          <img
+            className=" absolute top-0 w-20 mx-auto h-auto"
+            src={logo}
+            alt="Snap Sort logo"
+          />
+        </div>
 
-        {/* Desktop Menu */}
-        <ul className="hidden md:flex space-x-6">
+        {/* Routes (Middle) */}
+        <ul className="hidden md:flex space-x-6 text-center">
           <li className="hover:text-gray-400">
             <a href="/">Home</a>
           </li>
@@ -34,7 +38,12 @@ const Navbar = () => {
           </li>
         </ul>
 
-        {/* Mobile Menu Icon */}
+        {/* Add image button */}
+        <div className=" hidden md:flex">
+          <AiOutlineMenu />
+        </div>
+
+        {/* Mobile Toggle Icon (Right) */}
         <div className="md:hidden cursor-pointer" onClick={toggleNav}>
           {navOpen ? <AiOutlineClose size={30} /> : <AiOutlineMenu size={30} />}
         </div>
@@ -42,7 +51,7 @@ const Navbar = () => {
 
       {/* Mobile Menu Dropdown */}
       <ul
-        className={`md:hidden bg-gray-800 space-y-4 p-4 absolute top-16 left-0 w-full text-center transition-transform ${
+        className={`md:hidden  space-y-4 p-4 absolute top-16 left-0 w-full text-center transition-transform ${
           navOpen ? "block" : "hidden"
         }`}
       >

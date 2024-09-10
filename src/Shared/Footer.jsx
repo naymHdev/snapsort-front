@@ -9,7 +9,8 @@ import {
 const Footer = () => {
   return (
     <>
-      <footer className="bg-gray-800 text-white py-6">
+      <hr />
+      <footer className="py-8">
         <div className="container mx-auto text-center">
           <h2 className="text-lg font-semibold mb-2">Snap Sort</h2>
           <p className="mb-4">
@@ -22,7 +23,7 @@ const Footer = () => {
             <FaInstagram />
             <FaYoutube />
           </div>
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-gray-700">
             &copy; {new Date().getFullYear()} Image Gallery. All rights
             reserved.
           </p>
