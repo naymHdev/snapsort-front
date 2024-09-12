@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Gallery from "../Gallery/Gallery";
 
 const Home = () => {
   return (
@@ -10,6 +11,7 @@ const Home = () => {
           </button>
         </Link>
       </div>
+      <Gallery />
     </>
   );
 };

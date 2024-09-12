@@ -4,12 +4,16 @@ import PublicAxios from "../../Hooks/localAxios";
 import { uploadImage } from "../../api/utils/uploadImage.js";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import useImages from "../../Hooks/useImages.jsx";
 
 const ImageFormModal = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  // instant reload posting image
+  const [, refetch] = useImages();
 
   const {
     register,
@@ -51,6 +55,7 @@ const ImageFormModal = () => {
       //   console.log("result__", res);
       if (res.status === 201) {
         toast.success("Image added successfully!");
+        refetch();
         navigate("/");
         setImagePreview(null);
       } else toast.error("An error occurred while submitting the form.");
