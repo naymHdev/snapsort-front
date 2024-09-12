@@ -1,7 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
-import Error from "../Components/Error/Error";
 import Layout from "../Layouts/Layout";
 import Home from "../Pages/Home/Home";
+import Error from "../Components/Error/Error";
+import ImageFormModal from "../Components/ImageFormModal/ImageFormModal";
 
 const router = createBrowserRouter([
   {
@@ -12,6 +13,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "imageForm",
+        element: <ImageFormModal />,
       },
     ],
   },
