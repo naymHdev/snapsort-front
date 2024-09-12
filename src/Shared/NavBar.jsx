@@ -11,7 +11,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className=" fixed w-full top-0 left-0 z-10 shadow-sm">
+    <nav className=" fixed w-full top-0 left-0 z-10 shadow-sm bg-slate-200">
       <div className="container relative mx-auto flex justify-between items-center py-6 px-5 md:px-0">
         {/* Social Icons (Left) */}
         <div className="">
@@ -48,7 +48,7 @@ const Navbar = () => {
 
       {/* Mobile Menu Dropdown */}
       <ul
-        className={`md:hidden  space-y-4 p-4 absolute top-16 left-0 w-full text-center transition-transform ${
+        className={`bg-slate-200 md:hidden  space-y-4 p-4 absolute top-16 left-0 w-full text-center transition-transform ${
           navOpen ? "block" : "hidden"
         }`}
       >
