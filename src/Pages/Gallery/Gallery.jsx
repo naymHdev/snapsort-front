@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useImages from "../../Hooks/useImages";
 import PublicAxios from "../../Hooks/localAxios";
 import { Link } from "react-router-dom";
@@ -8,18 +8,11 @@ const Gallery = () => {
   const [selectedImages, setSelectedImages] = useState([]);
 
   // handle featured image
-
   const handleFImage = isImages?.data?.filter(
     (image) => image?.isFeatured == true
   );
-  console.log("handleFImage__", handleFImage);
 
-  // Get the last image in the filtered array
   const lastFeaturedImage = handleFImage?.[handleFImage.length - 1];
-
-  useEffect(() => {
-    console.log("handleFImage__", handleFImage);
-  }, [handleFImage]);
 
   // Handle "Select All" functionality
   const handleSelectAll = () => {
@@ -60,11 +53,11 @@ const Gallery = () => {
       <section className=" mt-[77px]">
         {/* Display the last featured image */}
         {lastFeaturedImage && (
-          <div className="w-full h-[80vh]  object-cover object-center">
+          <div className="w-full h-[80vh] relative">
             <img
               src={lastFeaturedImage.url}
               alt={lastFeaturedImage.description}
-              className="w-full h-[80vh] object-cover object-center"
+              className="w-full h-full object-cover object-center"
             />
           </div>
         )}
