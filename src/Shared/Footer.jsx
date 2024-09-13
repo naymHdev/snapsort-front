@@ -13,7 +13,7 @@ const Footer = () => {
       <footer className="py-8">
         <div className="container mx-auto text-center">
           <h2 className="text-lg font-semibold mb-2">Snap Sort</h2>
-          <p className="mb-4">
+          <p className="mb-4 font-medium text-gray-600">
             Showcasing the best moments in a beautiful and organized gallery.
           </p>
           <div className="flex justify-center space-x-4 mb-4">
@@ -23,7 +23,7 @@ const Footer = () => {
             <FaInstagram />
             <FaYoutube />
           </div>
-          <p className="text-sm text-gray-700">
+          <p className="text-sm text-gray-700 font-medium">
             &copy; {new Date().getFullYear()} Snap Sort. All rights reserved.
           </p>
         </div>
