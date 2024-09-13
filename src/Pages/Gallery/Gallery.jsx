@@ -10,12 +10,6 @@ const Gallery = () => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [imagesOrder, setImagesOrder] = useState(isImages?.data || []);
 
-  // handle featured image
-  const handleFImage = isImages?.data?.filter(
-    (image) => image?.isFeatured == true
-  );
-  const lastFeaturedImage = handleFImage?.[handleFImage.length - 1];
-
   // Handle "Select All" functionality
   const handleSelectAll = () => {
     if (selectedImages.length === isImages.data.length) {
@@ -67,22 +61,20 @@ const Gallery = () => {
     setImagesOrder(reorderedImages); // Update the images order after dragging
   };
 
-  console.log("imagesOrder", imagesOrder);
+  console.log("imagesOrder", imagesOrder[0]);
 
   return (
     <>
       {/* Featured image set */}
       <section className=" mt-[77px]">
         {/* Display the last featured image */}
-        {lastFeaturedImage && (
-          <div className="w-full h-[80vh] relative">
-            <img
-              src={lastFeaturedImage.url}
-              alt={lastFeaturedImage.description}
-              className="w-full h-full object-cover object-center"
-            />
-          </div>
-        )}
+        <div className="w-full h-[80vh] relative">
+          <img
+            src={imagesOrder[0]?.url}
+            alt={imagesOrder[0]?.description}
+            className="w-full h-full object-cover object-center"
+          />
+        </div>
       </section>
       <div className="p-4">
         <div className="md:flex items-center justify-between gap-4 my-6">
