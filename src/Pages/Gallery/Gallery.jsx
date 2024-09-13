@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import useImages from "../../Hooks/useImages";
 import PublicAxios from "../../Hooks/localAxios";
 import { Link } from "react-router-dom";
 import "./gallery.css";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const Gallery = () => {
   const [isImages, refetch] = useImages();
@@ -48,6 +48,13 @@ const Gallery = () => {
     }
   };
 
+  // Update `imagesOrder` when `isImages` data is available
+  useEffect(() => {
+    if (isImages?.data) {
+      setImagesOrder(isImages.data);
+    }
+  }, [isImages]);
+
   // Handle "Drag and Drop" functionality
   const onDragEnd = (result) => {
     const { destination, source } = result;
@@ -59,6 +66,8 @@ const Gallery = () => {
 
     setImagesOrder(reorderedImages); // Update the images order after dragging
   };
+
+  console.log("imagesOrder", imagesOrder);
 
   return (
     <>
@@ -149,13 +158,13 @@ const Gallery = () => {
             </Droppable>
           </DragDropContext>
         </div>
-        {/* <div>
-          {selectedImages.includes(img._id) && (
+        <div>
+          {/* {selectedImages.includes(img._id) && (
             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-2xl">
               ✔
             </div>
-          )}
-        </div> */}
+          )} */}
+        </div>
       </div>
     </>
   );
