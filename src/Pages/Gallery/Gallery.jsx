@@ -86,7 +86,7 @@ const Gallery = () => {
   };
 
   // Filter the isFeatured image
-  const featuredImage = imagesOrder?.filter((itm) => itm.isFeatured);
+  const featuredImage = imagesOrder?.filter((itm) => itm.isFeatured == true);
 
   return (
     <>

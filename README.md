@@ -41,8 +41,7 @@ Check out the live version of the project here:
 
 ## 🖼️ Screenshots
 
-![Snap Sort Image Gallery](https://i.ibb.co.com/k1gbn62/snapsort-front-vercel-app.png)  
-_Description of the screenshot_
+![Snap Sort Image Gallery](https://i.ibb.co.com/k1gbn62/snapsort-front-vercel-app.png)
 
 ## 📂 Project Setup
 
