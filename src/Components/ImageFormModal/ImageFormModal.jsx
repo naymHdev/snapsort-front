@@ -46,6 +46,7 @@ const ImageFormModal = () => {
         url: imageUrl.data.display_url,
         title: data.title,
         description: data.description,
+        isFeatured: false,
       };
 
       // Post data to the database

@@ -4,6 +4,7 @@ import useImages from "../../Hooks/useImages";
 import PublicAxios from "../../Hooks/localAxios";
 import { Link } from "react-router-dom";
 import "./gallery.css";
+import toast from "react-hot-toast";
 
 const Gallery = () => {
   const [isImages, refetch] = useImages();
@@ -49,19 +50,40 @@ const Gallery = () => {
     }
   }, [isImages]);
 
-  // Handle "Drag and Drop" functionality
-  const onDragEnd = (result) => {
+  // Handle drag end event
+  const onDragEnd = async (result) => {
     const { destination, source } = result;
-    if (!destination) return; // If the item was dropped outside the list
+
+    if (!destination) return; // If dropped outside the list, exit
 
     const reorderedImages = Array.from(imagesOrder);
     const [removed] = reorderedImages.splice(source.index, 1);
     reorderedImages.splice(destination.index, 0, removed);
 
-    setImagesOrder(reorderedImages); // Update the images order after dragging
+    // Add 'order' field to each image based on its index in the reordered array
+    const updatedImages = reorderedImages.map((img, index) => ({
+      ...img,
+      order: index, // Update order based on new index
+      isFeatured: index === 0 ? true : false, // Mark first image as featured
+    }));
+
+    setImagesOrder(updatedImages);
+
+    try {
+      // Send updated order to the server
+      const res = await PublicAxios.patch("/api/images/update-order", {
+        orderedImages: updatedImages, // Send the updated images with order and isFeatured
+      });
+      console.log("Image order and featured status updated successfully.", res);
+      toast.success("Image order and featured status updated successfully.");
+    } catch (error) {
+      console.error("Failed to update image order:", error);
+      toast.error("Failed to update image order.");
+    }
   };
 
-  console.log("imagesOrder", imagesOrder[0]);
+  const featuredImage = imagesOrder?.filter((itm) => itm.isFeatured == true);
+  console.log("featuredImage__", featuredImage[0]);
 
   return (
     <>
@@ -70,8 +92,8 @@ const Gallery = () => {
         {/* Display the last featured image */}
         <div className="w-full h-[80vh] relative">
           <img
-            src={imagesOrder[0]?.url}
-            alt={imagesOrder[0]?.description}
+            src={featuredImage[0]?.url}
+            alt={featuredImage[0]?.description}
             className="w-full h-full object-cover object-center"
           />
         </div>
