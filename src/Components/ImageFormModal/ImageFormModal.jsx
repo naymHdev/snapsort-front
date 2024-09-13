@@ -68,7 +68,6 @@ const ImageFormModal = () => {
   return (
     <div className="max-w-lg mx-auto py-28">
       <h2 className="text-xl font-semibold text-center mb-6">Add New Image</h2>
-
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Image Upload */}
         <div className="mb-4">

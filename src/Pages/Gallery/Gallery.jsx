@@ -3,16 +3,17 @@ import useImages from "../../Hooks/useImages";
 import PublicAxios from "../../Hooks/localAxios";
 import { Link } from "react-router-dom";
 import "./gallery.css";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const Gallery = () => {
   const [isImages, refetch] = useImages();
   const [selectedImages, setSelectedImages] = useState([]);
+  const [imagesOrder, setImagesOrder] = useState(isImages?.data || []);
 
   // handle featured image
   const handleFImage = isImages?.data?.filter(
     (image) => image?.isFeatured == true
   );
-
   const lastFeaturedImage = handleFImage?.[handleFImage.length - 1];
 
   // Handle "Select All" functionality
@@ -47,10 +48,21 @@ const Gallery = () => {
     }
   };
 
-  console.log("selectedImages", selectedImages);
+  // Handle "Drag and Drop" functionality
+  const onDragEnd = (result) => {
+    const { destination, source } = result;
+    if (!destination) return; // If the item was dropped outside the list
+
+    const reorderedImages = Array.from(imagesOrder);
+    const [removed] = reorderedImages.splice(source.index, 1);
+    reorderedImages.splice(destination.index, 0, removed);
+
+    setImagesOrder(reorderedImages); // Update the images order after dragging
+  };
 
   return (
     <>
+      {/* Featured image set */}
       <section className=" mt-[77px]">
         {/* Display the last featured image */}
         {lastFeaturedImage && (
@@ -92,29 +104,58 @@ const Gallery = () => {
         </div>
 
         <div className="py-6 max-w-7xl mx-auto gallery">
-          {isImages?.data?.map((img) => (
-            <div
-              key={img._id}
-              className={`relative pics ${
-                selectedImages.includes(img._id)
-                  ? "border-4 border-blue-500"
-                  : ""
-              }`}
-              onClick={() => handleSelectImage(img._id)}
-            >
-              <img
-                src={img.url}
-                alt={img.description}
-                className=" w-full h-auto"
-              />
-              {selectedImages.includes(img._id) && (
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-2xl">
-                  ✔
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="gallery" direction="horizontal">
+              {(provided) => (
+                <div
+                  className="flex flex-wrap gap-4"
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  {imagesOrder.map((img, index) => (
+                    <Draggable
+                      key={img._id}
+                      draggableId={img._id}
+                      index={index}
+                    >
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          className={`relative pics ${
+                            selectedImages.includes(img._id)
+                              ? "border-4 border-blue-500"
+                              : ""
+                          } ${
+                            snapshot.isDragging
+                              ? "bg-gray-100 shadow-lg"
+                              : "bg-white"
+                          }`}
+                        >
+                          <img
+                            src={img.url}
+                            alt={img.description}
+                            className="w-full h-auto"
+                            onClick={() => handleSelectImage(img._id)}
+                          />
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
                 </div>
               )}
-            </div>
-          ))}
+            </Droppable>
+          </DragDropContext>
         </div>
+        {/* <div>
+          {selectedImages.includes(img._id) && (
+            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-2xl">
+              ✔
+            </div>
+          )}
+        </div> */}
       </div>
     </>
   );
