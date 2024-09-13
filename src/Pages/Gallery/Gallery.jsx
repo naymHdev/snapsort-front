@@ -2,6 +2,7 @@ import { useState } from "react";
 import useImages from "../../Hooks/useImages";
 import PublicAxios from "../../Hooks/localAxios";
 import { Link } from "react-router-dom";
+import "./gallery.css";
 
 const Gallery = () => {
   const [isImages, refetch] = useImages();
@@ -90,11 +91,11 @@ const Gallery = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 py-6 max-w-7xl mx-auto">
+        <div className="py-6 max-w-7xl mx-auto gallery">
           {isImages?.data?.map((img) => (
             <div
               key={img._id}
-              className={`relative cursor-pointer overflow-hidden ${
+              className={`relative pics ${
                 selectedImages.includes(img._id)
                   ? "border-4 border-blue-500"
                   : ""
@@ -104,7 +105,7 @@ const Gallery = () => {
               <img
                 src={img.url}
                 alt={img.description}
-                className="w-full h-full object-cover"
+                className=" w-full h-auto"
               />
               {selectedImages.includes(img._id) && (
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-2xl">

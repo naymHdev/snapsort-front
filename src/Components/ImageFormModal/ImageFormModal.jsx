@@ -46,8 +46,6 @@ const ImageFormModal = () => {
         url: imageUrl.data.display_url,
         title: data.title,
         description: data.description,
-        order: data.order,
-        isFeatured: data.isFeatured,
       };
 
       // Post data to the database
@@ -125,22 +123,6 @@ const ImageFormModal = () => {
           {errors.description && (
             <span className="text-red-500">{errors.description.message}</span>
           )}
-        </div>
-
-        {/* Order Input */}
-        <div className="mb-4">
-          <label className="block mb-2 font-medium">Order</label>
-          <input
-            type="number"
-            {...register("order", { valueAsNumber: true })}
-            className="w-full border rounded p-2 focus:outline-none"
-          />
-        </div>
-
-        {/* isFeatured Checkbox */}
-        <div className="mb-4 flex items-center">
-          <input type="checkbox" {...register("isFeatured")} className="mr-2" />
-          <label className="font-medium">Feature this image</label>
         </div>
 
         {/* Submit and Reset Buttons */}
