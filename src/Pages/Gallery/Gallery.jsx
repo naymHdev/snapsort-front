@@ -14,7 +14,7 @@ const Gallery = () => {
   // Handle "Select All" functionality
   const handleSelectAll = () => {
     if (selectedImages.length === isImages.data.length) {
-      setSelectedImages([]); // Deselect all if already selected
+      setSelectedImages([]);
     } else {
       setSelectedImages(isImages.data.map((img) => img._id)); // Select all images
     }
@@ -29,29 +29,25 @@ const Gallery = () => {
     }
   };
 
-  console.log("selectedImages", selectedImages);
-
   // Handle deletion of selected images
   const handleDelete = async () => {
     try {
       // Delete selected images from the server
       const res = await Promise.all(
-        selectedImages.map((id) => PublicAxios.delete(`/api/images/${id}`))
+        selectedImages?.map((id) => PublicAxios.delete(`/api/images/${id}`))
       );
-      console.log("Delete results:", res);
+      console.log("Delete results:", res[0], selectedImages);
+      toast.success("Deleted success.");
 
       // Update the imagesOrder state by filtering out the deleted images
       setImagesOrder(
         imagesOrder.filter((img) => !selectedImages.includes(img._id))
       );
-
-      // Clear selectedImages after deletion
       setSelectedImages([]);
-
-      // Optionally, you can refetch images from the server
       refetch();
     } catch (error) {
       console.error("Error deleting images:", error);
+      toast.error("Error deleting images");
     }
   };
 
@@ -84,7 +80,7 @@ const Gallery = () => {
       await PublicAxios.patch("/api/images/update-order", {
         orderedImages: updatedImages,
       });
-      toast.success("Image order and featured status updated successfully.");
+      toast.success("Featured image updated successfully.");
     } catch (error) {
       console.error("Failed to update image order:", error);
       toast.error("Failed to update image order.");
@@ -122,10 +118,10 @@ const Gallery = () => {
               className="bg-red-500 text-white px-4 py-2 rounded"
               disabled={selectedImages.length === 0}
             >
-              Delete Selected
+              Delete Selected({selectedImages.length})
             </button>
           </div>
-          <div>
+          <div className=" mt-5 md:mt-0">
             <Link to="/imageForm">
               <button className="bg-green-500 text-white px-4 py-2 rounded">
                 Add New Image
@@ -163,12 +159,12 @@ const Gallery = () => {
                               ? "bg-gray-100 shadow-lg"
                               : "bg-white"
                           }`}
+                          onClick={() => handleSelectImage(img._id)}
                         >
                           <img
                             src={img.url}
                             alt={img.description}
                             className="w-full h-auto"
-                            onClick={() => handleSelectImage(img._id)}
                           />
                           {selectedImages.includes(img._id) && (
                             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-2xl">
