@@ -20,7 +20,7 @@ const Gallery = () => {
     }
   };
 
-  // Handle individual image selection
+  // Handle individual image selection (toggle select/deselect)
   const handleSelectImage = (id) => {
     if (selectedImages.includes(id)) {
       setSelectedImages(selectedImages.filter((imgId) => imgId !== id));
@@ -29,14 +29,26 @@ const Gallery = () => {
     }
   };
 
+  console.log("selectedImages", selectedImages);
+
   // Handle deletion of selected images
   const handleDelete = async () => {
     try {
+      // Delete selected images from the server
       const res = await Promise.all(
         selectedImages.map((id) => PublicAxios.delete(`/api/images/${id}`))
       );
-      console.log(" results__", res);
+      console.log("Delete results:", res);
+
+      // Update the imagesOrder state by filtering out the deleted images
+      setImagesOrder(
+        imagesOrder.filter((img) => !selectedImages.includes(img._id))
+      );
+
+      // Clear selectedImages after deletion
       setSelectedImages([]);
+
+      // Optionally, you can refetch images from the server
       refetch();
     } catch (error) {
       console.error("Error deleting images:", error);
@@ -54,27 +66,24 @@ const Gallery = () => {
   const onDragEnd = async (result) => {
     const { destination, source } = result;
 
-    if (!destination) return; // If dropped outside the list, exit
+    if (!destination) return;
 
     const reorderedImages = Array.from(imagesOrder);
     const [removed] = reorderedImages.splice(source.index, 1);
     reorderedImages.splice(destination.index, 0, removed);
 
-    // Add 'order' field to each image based on its index in the reordered array
     const updatedImages = reorderedImages.map((img, index) => ({
       ...img,
-      order: index, // Update order based on new index
-      isFeatured: index === 0 ? true : false, // Mark first image as featured
+      order: index,
+      isFeatured: index === 0, // Mark the first image as featured
     }));
 
     setImagesOrder(updatedImages);
 
     try {
-      // Send updated order to the server
-      const res = await PublicAxios.patch("/api/images/update-order", {
-        orderedImages: updatedImages, // Send the updated images with order and isFeatured
+      await PublicAxios.patch("/api/images/update-order", {
+        orderedImages: updatedImages,
       });
-      console.log("Image order and featured status updated successfully.", res);
       toast.success("Image order and featured status updated successfully.");
     } catch (error) {
       console.error("Failed to update image order:", error);
@@ -82,14 +91,13 @@ const Gallery = () => {
     }
   };
 
-  const featuredImage = imagesOrder?.filter((itm) => itm.isFeatured == true);
-  console.log("featuredImage__", featuredImage[0]);
+  // Filter the isFeatured image
+  const featuredImage = imagesOrder?.filter((itm) => itm.isFeatured);
 
   return (
     <>
-      {/* Featured image set */}
+      {/* Display the featured image */}
       <section className=" mt-[77px]">
-        {/* Display the last featured image */}
         <div className="w-full h-[80vh] relative">
           <img
             src={featuredImage[0]?.url}
@@ -162,6 +170,11 @@ const Gallery = () => {
                             className="w-full h-auto"
                             onClick={() => handleSelectImage(img._id)}
                           />
+                          {selectedImages.includes(img._id) && (
+                            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-2xl">
+                              ✔
+                            </div>
+                          )}
                         </div>
                       )}
                     </Draggable>
@@ -171,13 +184,6 @@ const Gallery = () => {
               )}
             </Droppable>
           </DragDropContext>
-        </div>
-        <div>
-          {/* {selectedImages.includes(img._id) && (
-            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-2xl">
-              ✔
-            </div>
-          )} */}
         </div>
       </div>
     </>
