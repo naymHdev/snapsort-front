@@ -24,8 +24,7 @@ const Footer = () => {
             <FaYoutube />
           </div>
           <p className="text-sm text-gray-700">
-            &copy; {new Date().getFullYear()} Image Gallery. All rights
-            reserved.
+            &copy; {new Date().getFullYear()} Snap Sort. All rights reserved.
           </p>
         </div>
       </footer>
