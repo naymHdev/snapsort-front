@@ -35,13 +35,13 @@ Check out the live version of the project here:
 
 ### Backend
 
-- **Node.js & Express**: API built using Express.js.
+- **Node.js, Express & Mongoose**: API built using Express.js.
 - **MongoDB**: Image data stored in MongoDB.
 - **Cloud Storage**: Images are stored in cloud storage for easy access and management.
 
 ## 🖼️ Screenshots
 
-![Snap Sort Image Gallery](https://your-image-url.com)  
+![Snap Sort Image Gallery](https://i.ibb.co.com/k1gbn62/snapsort-front-vercel-app.png)  
 _Description of the screenshot_
 
 ## 📂 Project Setup
@@ -100,5 +100,3 @@ Feel free to open issues or submit pull requests for any bugs or improvements. C
 This project is licensed under the MIT License.
 
 ---
-
-This README will provide an overview of your project and guide users on how to set it up, explore its features, and contribute if they wish!
