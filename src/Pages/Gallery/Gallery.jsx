@@ -80,10 +80,8 @@ const Gallery = () => {
       await PublicAxios.patch("/api/images/update-order", {
         orderedImages: updatedImages,
       });
-      toast.success("Featured image updated successfully.");
     } catch (error) {
       console.error("Failed to update image order:", error);
-      toast.error("Failed to update image order.");
     }
   };
 
@@ -118,7 +116,8 @@ const Gallery = () => {
               className="bg-red-500 text-white px-4 py-2 rounded"
               disabled={selectedImages.length === 0}
             >
-              Delete Selected({selectedImages.length})
+              Delete Selected
+              {selectedImages.length > 0 && <> ({selectedImages.length})</>}
             </button>
           </div>
           <div className=" mt-5 md:mt-0">
